@@ -40,5 +40,24 @@ function Heart(props) {
 
 // TinyReact.render(virtualDOM, app)
 
-// 函数组件
-TinyReact.render(<Heart title="Hello React" />, app)
+// 渲染函数组件
+// TinyReact.render(<Heart title="Hello React" />, app)
+
+class Alert extends TinyReact.Component {
+	// new virtualDOM.type(virtualDOM.props || {}) 传递给constructor
+	constructor(props) {
+		// 把props 传给父类
+		super(props)
+	}
+	render() {
+		return (
+			<div>
+				<div>Hello React</div>
+				<div>{this.props.title}</div>
+			</div>
+		)
+	}
+}
+
+// 渲染类组件
+TinyReact.render(<Alert title="Hello Vue" />, app)

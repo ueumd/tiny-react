@@ -18,9 +18,14 @@ export default function mountComponent(virtualDOM, container) {
      }
      */
 		console.log(nextVirtualDOM)
+	} else {
+		// class component
+		console.log('class component...')
+		nextVirtualDOM = buildClassComponent(virtualDOM)
 	}
 
 	/**
+   继续判断
    解决函数组件返回函数组件
    function Heart() {
     // return <h1>&hearts&</h1>
@@ -28,13 +33,14 @@ export default function mountComponent(virtualDOM, container) {
   }
    */
 	if (isFunction(nextVirtualDOM)) {
-		mountElement(nextVirtualDOM, container)
+		mountElement(nextVirtualDOM)
 	} else {
 		// 普通DOM元素 渲染至页面上
 		mountNativeElement(nextVirtualDOM, container)
 	}
 }
 
+// 函数组件
 function buildFunctionComponent(virtualDOM) {
 	/**
    {
@@ -47,4 +53,11 @@ function buildFunctionComponent(virtualDOM) {
    }
    */
 	return virtualDOM.type(virtualDOM.props || {})
+}
+
+// 类组件
+function buildClassComponent(virtualDOM) {
+	const component = new virtualDOM.type(virtualDOM.props || {})
+	// const nextVirtualDOM = component.render()
+	return component.render()
 }
