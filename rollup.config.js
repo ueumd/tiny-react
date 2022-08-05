@@ -13,7 +13,7 @@ export default [
 	// 	plugins: [babel({ babelHelpers: 'bundled' })]
 	// },
 	{
-		input: './example/index.js',
+		input: './example/diff.js',
 		output: [
 			{
 				file: './dist/example.js',

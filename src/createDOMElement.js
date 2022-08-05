@@ -16,6 +16,10 @@ export default function createDOMElement(virtualDOM) {
 		updateNodeElement(newElement, virtualDOM)
 	}
 
+	// virtualDEOM 对比
+	// _virtualDOM 存放当前元素的virtualDOM
+	newElement._virtualDOM = virtualDOM
+
 	// 递归创建子节点
 	virtualDOM.children.forEach(child => {
 		mountElement(child, newElement)
