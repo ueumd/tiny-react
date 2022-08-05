@@ -37,8 +37,7 @@ export default function createElement(type, props, ...children) {
 	// 拷贝children 到新数组里
 	// child 子节点
 	const childElements = [].concat(...children).reduce((result, child) => {
-
-    // 解决 子元素类型 刨除 null true false  	{2 === 1 && <div>如果2和1相等渲染当前内容</div>}
+		// 解决 子元素类型 刨除 null true false  	{2 === 1 && <div>如果2和1相等渲染当前内容</div>}
 		if (child !== false && child !== true && child !== null) {
 			if (child instanceof Object) {
 				result.push(child)

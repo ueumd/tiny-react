@@ -18,6 +18,27 @@ const virtualDOM = (
 )
 
 const app = document.querySelector('#app')
-TinyReact.render(virtualDOM, app)
 
-console.log(virtualDOM)
+function Demo() {
+	return <div>Demo</div>
+}
+
+// 函数组件
+// function Heart() {
+// 	// return <h1>&hearts;</h1>
+// 	return <Demo />
+// }
+
+function Heart(props) {
+	return (
+		<div>
+			{props.title}
+			&hearts; <Demo />
+		</div>
+	)
+}
+
+// TinyReact.render(virtualDOM, app)
+
+// 函数组件
+TinyReact.render(<Heart title="Hello React" />, app)

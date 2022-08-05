@@ -4,6 +4,8 @@
  * @param container
  */
 import mountNativeElement from './mountNativeElement'
+import isFunction from './isFunction'
+import mountComponent from './mountCompoent'
 
 /**
  * mountElement
@@ -12,6 +14,14 @@ import mountNativeElement from './mountNativeElement'
  */
 export default function mountElement(virtualDOM, container) {
 	// Component VS NativeElement
-	// 通过 mountNativeElement 方法转换 Native Element
-	mountNativeElement(virtualDOM, container)
+
+	if (isFunction(virtualDOM)) {
+		// Function Component
+		console.log('component...')
+		mountComponent(virtualDOM, container)
+	} else {
+		// NativeElement
+		// 通过 mountNativeElement 方法转换 Native Element
+		mountNativeElement(virtualDOM, container)
+	}
 }
