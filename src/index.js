@@ -1,4 +1,10 @@
-import createElement from "./createElement"
+import createElement from './createElement'
+import render from './render'
 export default {
-	createElement
+	createElement,
+	render
 }
+
+/**
+ * render -> diff -> mountElement -> mountNativeElement
+ */
