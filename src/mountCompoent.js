@@ -1,9 +1,14 @@
 import isFunctionComponent from './isFunctionComponent'
 import mountNativeElement from './mountNativeElement'
 import isFunction from './isFunction'
-import mountElement from './mountElement'
 
-export default function mountComponent(virtualDOM, container) {
+/**
+ * 渲染 类组件 与 函数组件
+ * @param virtualDOM
+ * @param container
+ * @param oldDOM
+ */
+export default function mountComponent(virtualDOM, container, oldDOM) {
 	let nextVirtualDOM = null
 	// 函数组件 VS 类组件
 	if (isFunctionComponent(virtualDOM)) {
@@ -33,10 +38,10 @@ export default function mountComponent(virtualDOM, container) {
   }
    */
 	if (isFunction(nextVirtualDOM)) {
-		mountElement(nextVirtualDOM)
+		mountComponent(nextVirtualDOM, container, oldDOM)
 	} else {
 		// 普通DOM元素 渲染至页面上
-		mountNativeElement(nextVirtualDOM, container)
+		mountNativeElement(nextVirtualDOM, container, oldDOM)
 	}
 }
 

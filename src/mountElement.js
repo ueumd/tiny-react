@@ -8,20 +8,21 @@ import isFunction from './isFunction'
 import mountComponent from './mountCompoent'
 
 /**
- * mountElement
+ * 渲染普通virtualDOM 与 类组件和函数组件
  * @param virtualDOM
  * @param container
+ * @param oldDOM
  */
-export default function mountElement(virtualDOM, container) {
+export default function mountElement(virtualDOM, container, oldDOM) {
 	// Component VS NativeElement
 
 	if (isFunction(virtualDOM)) {
 		// Function Component
 		console.log('component...')
-		mountComponent(virtualDOM, container)
+		mountComponent(virtualDOM, container, oldDOM)
 	} else {
 		// NativeElement
 		// 通过 mountNativeElement 方法转换 Native Element
-		mountNativeElement(virtualDOM, container)
+		mountNativeElement(virtualDOM, container, oldDOM)
 	}
 }

@@ -18,14 +18,31 @@ class Alert extends TinyReact.Component {
 		return (
 			<div>
 				<div className="test">Hello React</div>
-				<div>name: {this.props.name}</div>
+				<div>
+					name: {this.props.name}, id: {this.props.id}
+				</div>
 				<button onClick={this.handleClick}>title: {this.state.title}</button>
 			</div>
 		)
 	}
 }
 
+function Heart(props) {
+	return (
+		<div>
+			{props.name}
+			<h3>&hearts;</h3>
+		</div>
+	)
+}
+
 const app = document.querySelector('#app')
 
 // 渲染类组件
-TinyReact.render(<Alert name="Hello Vue" />, app)
+TinyReact.render(<Alert name="Hello Vue" id="6666" />, app)
+
+// 组件属性更新
+setTimeout(() => {
+	TinyReact.render(<Heart name="Hello Vue" id="999" />, app)
+	// TinyReact.render(<Alert name="Hello Vue" id="999" />, app)
+}, 4000)

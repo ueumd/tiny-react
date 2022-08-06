@@ -3,6 +3,7 @@ import updateTextNode from './updateTextNode'
 import updateNodeElement from './updateNodeElement'
 import createDOMElement from './createDOMElement'
 import unmountNode from './unmountNode'
+import diffComponent from './diffComponent'
 
 /**
  * 创建DOM 与 对比
@@ -14,7 +15,7 @@ import unmountNode from './unmountNode'
  * 2. 更新文本内容
  * 3. 更新节点属性
  * 4. 删除节点
- * 5. 新增节点
+ * 5. 组件对比
  *
  */
 export default function diff(virtualDOM, container, oldDOM) {
@@ -23,10 +24,15 @@ export default function diff(virtualDOM, container, oldDOM) {
 	if (!oldDOM) {
 		// 如果不存在不需要对比 直接接 Virtual DOM 转换为真实DOM
 		mountElement(virtualDOM, container)
-	} else if (virtualDOM.type !== oldVirtualDOM.type && typeof virtualDOM !== 'function') {
+	} else if (virtualDOM.type !== oldVirtualDOM.type && typeof virtualDOM.type !== 'function') {
 		// 1. 节点不同 创建新DOM 替换原来的DOM
 		const newElement = createDOMElement(virtualDOM)
 		oldDOM.parentNode.replaceChild(newElement, oldDOM)
+	} else if (typeof virtualDOM.type === 'function') {
+		// oldComponent 组件要更新的实例对象
+		const oldComponent = oldVirtualDOM.component
+		// 组件对比
+		diffComponent(virtualDOM, oldComponent, oldDOM, container)
 	} else if (oldVirtualDOM && virtualDOM.type === oldVirtualDOM.type) {
 		// 类型节点是否相同
 
