@@ -10,10 +10,11 @@ import unmountNode from './unmountNode'
  * @param container
  * @param oldDOM
  *
- * 1. 文本内容
- * 2. 同节点属性
- * 3. 两节点不同（创建新DOM，替换原DOM）
+ * 1. 节点不同（创建新DOM，替换原DOM）
+ * 2. 更新文本内容
+ * 3. 更新节点属性
  * 4. 删除节点
+ * 5. 新增节点
  *
  */
 export default function diff(virtualDOM, container, oldDOM) {
@@ -23,7 +24,7 @@ export default function diff(virtualDOM, container, oldDOM) {
 		// 如果不存在不需要对比 直接接 Virtual DOM 转换为真实DOM
 		mountElement(virtualDOM, container)
 	} else if (virtualDOM.type !== oldVirtualDOM.type && typeof virtualDOM !== 'function') {
-		// 节点不同 创建新DOM 替换原来的DOM
+		// 1. 节点不同 创建新DOM 替换原来的DOM
 		const newElement = createDOMElement(virtualDOM)
 		oldDOM.parentNode.replaceChild(newElement, oldDOM)
 	} else if (oldVirtualDOM && virtualDOM.type === oldVirtualDOM.type) {
@@ -31,10 +32,10 @@ export default function diff(virtualDOM, container, oldDOM) {
 
 		// 本文节点
 		if (virtualDOM.type === 'text') {
-			// 更新内容
+			// 2. 更新内容
 			updateTextNode(virtualDOM, oldVirtualDOM, oldDOM)
 		} else {
-			// 更新元素属性
+			// 3. 更新节点属性
 			updateNodeElement(oldDOM, virtualDOM, oldVirtualDOM)
 		}
 
@@ -43,7 +44,7 @@ export default function diff(virtualDOM, container, oldDOM) {
 			diff(child, oldDOM, oldDOM.childNodes[index])
 		})
 
-		// 删除节点
+		// 4. 删除节点
 		// 获取旧节点
 		let oldChildNodes = oldDOM.childNodes
 

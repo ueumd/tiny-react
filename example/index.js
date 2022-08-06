@@ -19,45 +19,4 @@ const virtualDOM = (
 
 const app = document.querySelector('#app')
 
-function Demo() {
-	return <div>Demo</div>
-}
-
-// 函数组件
-// function Heart() {
-// 	// return <h1>&hearts;</h1>
-// 	return <Demo />
-// }
-
-function Heart(props) {
-	return (
-		<div>
-			{props.title}
-			&hearts; <Demo />
-		</div>
-	)
-}
-
-// TinyReact.render(virtualDOM, app)
-
-// 渲染函数组件
-// TinyReact.render(<Heart title="Hello React" />, app)
-
-class Alert extends TinyReact.Component {
-	// new virtualDOM.type(virtualDOM.props || {}) 传递给constructor
-	constructor(props) {
-		// 把props 传给父类
-		super(props)
-	}
-	render() {
-		return (
-			<div>
-				<div>Hello React</div>
-				<div>{this.props.title}</div>
-			</div>
-		)
-	}
-}
-
-// 渲染类组件
-TinyReact.render(<Alert title="Hello Vue" />, app)
+TinyReact.render(virtualDOM, app)

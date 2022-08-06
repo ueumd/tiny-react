@@ -5,6 +5,12 @@ export default function mountNativeElement(virtualDOM, container) {
 
 	//将转换的DOM渲染至页面
 	container.appendChild(newElement)
+
+	// 类组件返回的 component
+	let component = virtualDOM.component
+	if (component) {
+		component.setDOM(newElement)
+	}
 }
 
 // export default function mountNativeElement(virtualDOM, container) {

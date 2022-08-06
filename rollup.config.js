@@ -13,7 +13,9 @@ export default [
 	// 	plugins: [babel({ babelHelpers: 'bundled' })]
 	// },
 	{
-		input: './example/diff.js',
+		// input: './example/diff.js',
+		input: './example/setState.js',
+		// input: './example/index.js',
 		output: [
 			{
 				file: './dist/example.js',

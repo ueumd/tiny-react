@@ -57,7 +57,14 @@ function buildFunctionComponent(virtualDOM) {
 
 // 类组件
 function buildClassComponent(virtualDOM) {
+	// component 实例化类组件
 	const component = new virtualDOM.type(virtualDOM.props || {})
-	// const nextVirtualDOM = component.render()
-	return component.render()
+
+	const nextVirtualDOM = component.render()
+
+	// 挂载类组件实例 修改组件状态 更新DOM时需要用
+	// 传给 mountNativeElement
+	nextVirtualDOM.component = component
+
+	return nextVirtualDOM
 }
