@@ -10,6 +10,10 @@ import isFunction from './isFunction'
  */
 export default function mountComponent(virtualDOM, container, oldDOM) {
 	let nextVirtualDOM = null
+
+	// 处理组件上的 ref属性
+	let component = null
+
 	// 函数组件 VS 类组件
 	if (isFunctionComponent(virtualDOM)) {
 		console.log('function component...')
@@ -27,6 +31,20 @@ export default function mountComponent(virtualDOM, container, oldDOM) {
 		// class component
 		console.log('class component...')
 		nextVirtualDOM = buildClassComponent(virtualDOM)
+
+		// 类组件实例 处理ref
+		component = nextVirtualDOM.component
+	}
+
+	// 组件添加ref属性
+	// 处理组件 ref
+	if (component) {
+		// 生命周期DidMount
+		component.componentDidMount()
+		// <Alert ref={alert => (this.alert = alert)} name="Hello Vue" id="6666" />
+		if (component.props && component.props.ref) {
+			component.props.ref(component)
+		}
 	}
 
 	/**
