@@ -45,10 +45,53 @@ export default function diff(virtualDOM, container, oldDOM) {
 			updateNodeElement(oldDOM, virtualDOM, oldVirtualDOM)
 		}
 
-		// 对比子节点
-		virtualDOM.children.forEach((child, index) => {
-			diff(child, oldDOM, oldDOM.childNodes[index])
-		})
+		// 使用key属性对比
+		// 1. 将拥有key属性的子元素放置在一个单独的对象中
+		let keyedElements = {}
+		for (let i = 0, len = oldDOM.childNodes.length; i < len; i++) {
+			const domElement = oldDOM.childNodes[i]
+			if (domElement.nodeType === 1) {
+				let key = domElement.getAttribute('key')
+				if (key) {
+					keyedElements[key] = domElement
+				}
+			}
+		}
+
+		// 是否找到拥有key属性的元素
+		const hasNoKey = Object.keys(keyedElements).length === 0
+
+		if (hasNoKey) {
+			// 没有key 使用索引方式 对比子节点
+			virtualDOM.children.forEach((child, index) => {
+				diff(child, oldDOM, oldDOM.childNodes[index])
+			})
+		} else {
+			virtualDOM.children.forEach((child, i) => {
+				// 获取要进行比对元素的key属性
+				let key = child.props.key
+
+				// key 属性存在
+				if (key) {
+					// 到已存在的 DOM 元素对象中查找对应的 DOM 元素
+					let domElement = keyedElements[key]
+					// 如果找到元素就说明该元素已经存在 不需要重新渲染
+					if (domElement) {
+						// 虽然 DOM 元素不需要重新渲染 但是不能确定元素的位置就一定没有发生变化
+						// 所以还要查看一下元素的位置
+						// 看一下 oldDOM 对应的(i)子元素和 domElement 是否是同一个元素 如果不是就说明元素位置发生了变化
+						if (oldDOM.childNodes[i] && oldDOM.childNodes[i] !== domElement) {
+							// 元素位置发生了变化
+							// 将 domElement 插入到当前元素位置的前面 oldDOM.childNodes[i] 就是当前位置
+							// domElement 就被放入了当前位置
+							oldDOM.insertBefore(domElement, oldDOM.childNodes[i])
+						}
+					} else {
+						mountElement(child, oldDOM, oldDOM.childNodes[i])
+					}
+				}
+			})
+		}
 
 		// 4. 删除节点
 		// 获取旧节点

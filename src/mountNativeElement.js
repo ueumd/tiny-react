@@ -4,13 +4,18 @@ import unmountNode from './unmountNode'
 export default function mountNativeElement(virtualDOM, container, oldDOM) {
 	const newElement = createDOMElement(virtualDOM)
 
+	if (oldDOM) {
+		// 新增DOM时插入指定的顺序
+		container.insertBefore(newElement, oldDOM)
+	} else {
+		//将转换的DOM渲染至页面
+		container.appendChild(newElement)
+	}
+
 	// 判断旧的DOM对象是否存在 如果存在 删除
 	if (oldDOM) {
 		unmountNode(oldDOM)
 	}
-
-	//将转换的DOM渲染至页面
-	container.appendChild(newElement)
 
 	// 类组件返回的 component
 	let component = virtualDOM.component
