@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div id="root">
+			<h1>这是一个h1</h1>
+			<div>这是第 1 个 div 标签</div>
+			<div>这是第 2 个 div 标签</div>
+			<h3 class="h3">这是1个h3</h3>
+			<div class="box">box</div>
+			<ul class="ul">
+				<li>li 1</li>
+				<li>li 2</li>
+				<li>li 3</li>
+			</ul>
+		</div>
+		<script>
+			const root = document.getElementById('root')
+			class VNode {
+				constructor(tagName, props, value, type) {
+					this.tag = tagName && tagName.toLowerCase()
+					this.props = props
+					this.value = value
+					this.type = type
+					this.children = []
+				}
+				appendChild(vNode) {
+					this.children.push(vNode)
+				}
+			}
+
+			/**
+        利用递归 来遍历DOM元素 生成虚拟DOM
+        Vue中的源码使用 栈结构  ，使用栈存储 父元素来实现递归生成
+      */
+			function getVNode(node) {
+				let nodeType = node.nodeType
+				let _vNode = null
+
+				if (nodeType === 1) {
+					// 元素
+					let tagName = node.nodeName //元素名 什么标签？
+					let props = node.attributes //属性  伪数组 元素上的属性
+
+					let propsObj = {}
+
+					for (let i = 0; i < props.length; i++) {
+						/**
+						 * 属性节点
+						 * nodeType 属性节点的节点类型值是2
+						 * nodeName 值是属性名
+						 * nodeValue 值是属性值
+						 */
+						propsObj[props[i].nodeName] = props[i].nodeValue
+					}
+					_vNode = new VNode(tagName, propsObj, undefined, nodeType)
+
+					// 当前 node 子元素
+					let childNodes = node.childNodes
+
+					for (let i = 0; i < childNodes.length; i++) {
+						_vNode.appendChild(getVNode(childNodes[i])) 	//递归
+					}
+				} else if (nodeType === 3) {
+					// 文本节点
+					_vNode = new VNode(undefined, undefined, node.nodeValue, nodeType) //无标签名、无属性、有value、有type
+				}
+				return _vNode
+			}
+
+			// 将vNode转化为真正的DOM
+			function parseNode(vNode) {
+				// 在真正的vue中 也是使用递归+栈 数据类型
+				// 创建真实的DOM
+				let type = vNode.type //拿到虚拟DOM的type,元素？文本？
+				let node = null //用来放创建出来的元素  真实node
+				if (type === 3) {
+					// 文本节点
+					return document.createTextNode(vNode.value) //直接创建文本节点
+				} else if (type === 1) {
+					// 元素节点
+          node = document.createElement(vNode.tag) //用tag名创建对应的标签
+
+					// 属性
+					let props = vNode.props //键值对类型  真正的vue中药比这复杂的多（事件、指令等）
+					Object.keys(props).forEach(key => {
+            node.setAttribute(key,  props[key])
+					})
+					// 子元素
+					let children = vNode.children
+					children.forEach(subVNode => {
+            node.appendChild(parseNode(subVNode)) //将子元素放进去  递归转换子元素
+					})
+					return node
+				}
+			}
+
+			const virtualDOM = getVNode(root)
+			console.log(virtualDOM)
+
+			const DOM = parseNode(virtualDOM)
+			console.log(DOM)
+		</script>
+	</body>
+</html>

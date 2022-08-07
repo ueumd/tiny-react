@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Title</title>
+	</head>
+	<body>
+		<div id="root">Hello React</div>
+		<script>
+			const node = document.getElementById('root')
+			let tagName = node.nodeName
+			let props = node.attributes
+
+      console.log(tagName)
+      console.log(props)
+
+      for (let i = 0; i < props.length; i++) {
+
+        // id = "root"
+        console.log(props[i])
+
+        // nodeName:  id    nodeValue: root    nodeType: 2
+        console.log('nodeName: ', props[i].nodeName, '   nodeValue:' ,props[i].nodeValue, '   nodeType:', props[i].nodeType)
+      }
+		</script>
+	</body>
+</html>
