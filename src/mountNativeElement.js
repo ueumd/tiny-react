@@ -10,6 +10,7 @@ export default function mountNativeElement(virtualDOM, container, oldDOM) {
 	} else {
 		//将转换的DOM渲染至页面
 		container.appendChild(newElement)
+		console.log(container.childNodes)
 	}
 
 	// 判断旧的DOM对象是否存在 如果存在 删除
