@@ -5,6 +5,7 @@ class KeyDemo extends TinyReact.Component {
 		super(props)
 		this.handleClick = this.handleClick.bind(this)
 		this.add = this.add.bind(this)
+		this.remove = this.remove.bind(this)
 		this.state = {
 			persons: [
 				{ id: 1, name: '张三' },
@@ -29,20 +30,10 @@ class KeyDemo extends TinyReact.Component {
 		this.setState(newState)
 	}
 
-	componentWillReceiveProps(nextProps) {
-		console.log('componentWillReceiveProps')
-	}
-
-	componentWillUpdate() {
-		console.log('componentWillUpdate')
-	}
-
-	componentDidUpdate() {
-		console.log('componentDidUpdate')
-	}
-
-	componentDidMount() {
-		console.log('componentDidMount')
+	remove() {
+		const newState = JSON.parse(JSON.stringify(this.state))
+		newState.persons.pop()
+		this.setState(newState)
 	}
 
 	render() {
@@ -55,6 +46,7 @@ class KeyDemo extends TinyReact.Component {
 				</ul>
 				<button onClick={this.handleClick}>改变顺序</button>
 				<button onClick={this.add}>新增</button>
+				<button onClick={this.remove}>remove</button>
 			</div>
 		)
 	}

@@ -97,11 +97,33 @@ export default function diff(virtualDOM, container, oldDOM) {
 		// 获取旧节点
 		let oldChildNodes = oldDOM.childNodes
 
-		// 判断旧节点数量
+		// 如果旧节点的数量多于要渲染的新节点的长度
 		if (oldChildNodes.length > virtualDOM.children.length) {
-			// 有节点删除
-			for (let i = oldChildNodes.length - 1; i > virtualDOM.children.length - 1; i--) {
-				unmountNode(oldChildNodes[i])
+			// // 有节点删除
+			// for (let i = oldChildNodes.length - 1; i > virtualDOM.children.length - 1; i--) {
+			// 	unmountNode(oldChildNodes[i])
+			// }
+
+			if (hasNoKey) {
+				for (let i = oldChildNodes.length - 1; i >= virtualDOM.children.length; i--) {
+					oldDOM.removeChild(oldChildNodes[i])
+				}
+			} else {
+				for (let i = 0; i < oldChildNodes.length; i++) {
+					let oldChild = oldChildNodes[i]
+					let oldChildKey = oldChild._virtualDOM.props.key
+					let found = false
+					for (let n = 0; n < virtualDOM.children.length; n++) {
+						if (oldChildKey === virtualDOM.children[n].props.key) {
+							found = true
+							break
+						}
+					}
+					if (!found) {
+						unmountNode(oldChild)
+						i--
+					}
+				}
 			}
 		}
 	}
