@@ -14,6 +14,19 @@ class Alert extends TinyReact.Component {
 			title: 'Change Title'
 		})
 	}
+
+	componentWillReceiveProps(nextProps) {
+		console.log('componentWillReceiveProps')
+	}
+
+	componentWillUpdate() {
+		console.log('componentWillUpdate')
+	}
+
+	componentDidUpdate() {
+		console.log('componentDidUpdate')
+	}
+
 	render() {
 		return (
 			<div>
@@ -43,6 +56,8 @@ TinyReact.render(<Alert name="Hello Vue" id="6666" />, app)
 
 // 组件属性更新
 setTimeout(() => {
-	TinyReact.render(<Heart name="Hello Vue" id="999" />, app)
-	// TinyReact.render(<Alert name="Hello Vue" id="999" />, app)
+	// TinyReact.render(<Heart name="Hello Vue" id="999" />, app)
+
+	// 更新同一个组件
+	TinyReact.render(<Alert name="Hello React" id="999" />, app)
 }, 4000)
