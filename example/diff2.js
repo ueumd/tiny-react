@@ -1,4 +1,4 @@
-import TinyReact from '../src/index'
+import TinyReact from '../src/react/index'
 const virtualDOM = (
 	<div className="container">
 		<h1>你好 Tiny React</h1>

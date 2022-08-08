@@ -1,4 +1,4 @@
-import TinyReact from '../src/index'
+import TinyReact from '../src/react/index'
 // import TinyReact from "../dist/tiny-react"
 const virtualDOM = (
 	<div className="container">

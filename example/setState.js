@@ -1,4 +1,4 @@
-import TinyReact from '../src/index'
+import TinyReact from '../src/react/index'
 class Alert extends TinyReact.Component {
 	constructor(props) {
 		super(props)

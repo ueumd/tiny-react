@@ -12,12 +12,25 @@ export default [
 	// 	],
 	// 	plugins: [babel({ babelHelpers: 'bundled' })]
 	// },
+	// {
+	// 	input: './babel/index.js',
+	// 	output: [
+	// 		{
+	// 			file: './dist/babel.js',
+	// 			format: 'es',
+	// 			exports: 'auto',
+	// 			sourcemap: true
+	// 		}
+	// 	],
+	// 	plugins: [babel({ babelHelpers: 'bundled' })]
+	// }
 	{
 		// input: './example/index.js',
 		// input: './example/diff.js',
-		input: './example/diff2.js',
-		// input: './example/setState.js',
+		// input: './example/diff2.js',
+		input: './example/setState.js',
 		// input: './example/ref.js',
+		// input: './example/diff-key.js',
 		// input: './example/diff-key.js',
 		output: [
 			{
