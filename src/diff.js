@@ -22,6 +22,7 @@ export default function diff(virtualDOM, container, oldDOM) {
 	const oldVirtualDOM = oldDOM && oldDOM._virtualDOM
 	// 判断 oldDOM 是否存在
 	if (!oldDOM) {
+		// 第一次
 		// 如果不存在不需要对比 直接接 Virtual DOM 转换为真实DOM
 		mountElement(virtualDOM, container)
 	} else if (virtualDOM.type !== oldVirtualDOM.type && typeof virtualDOM.type !== 'function') {
@@ -50,6 +51,8 @@ export default function diff(virtualDOM, container, oldDOM) {
 		let keyedElements = {}
 		for (let i = 0, len = oldDOM.childNodes.length; i < len; i++) {
 			const domElement = oldDOM.childNodes[i]
+
+			// 如果是元素节点，获取元素节点属性的key
 			if (domElement.nodeType === 1) {
 				let key = domElement.getAttribute('key')
 				if (key) {
